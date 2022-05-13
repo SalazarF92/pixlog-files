@@ -1,19 +1,18 @@
 import { Router } from "express";
-import { getManager } from "typeorm";
 import { userService } from "../services/userService";
 
 const router = Router();
 
 
-router.get("/current-user/:username/:password", async (req, res) => {
-  try {
-    const data = req.params;
-    const result = await userService.checkUser(data);
-    return res.json(result);
-  } catch (err) {
-    return res.json({ error: err.message });
-  }
-});
+// router.get("/current-user/:username/:password", async (req, res) => {
+//   try {
+//     const data = req.params;
+//     const result = await userService.checkUser(data);
+//     return res.json(result);
+//   } catch (err) {
+//     return res.json({ error: err.message });
+//   }
+// });
 
 router.get("/users", async (req, res) => {
   try {
