@@ -24,10 +24,10 @@ router.post("/create", async (req, res) => {
     const data = req.body;
     const result = await userService.createUser(data);
 
-    return res.json(`success to create user ${result.username}`);
+    res.json(result)
 
   } catch (err) {
-    throw err;
+    res.json({ error: err.message });
   }
 });
 

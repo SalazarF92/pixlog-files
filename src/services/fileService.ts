@@ -65,7 +65,6 @@ class FileService {
       if (checkFolderSize < 300 && !fileExists && currentFileSize < 100) {
         await fileRepository.createFile(data.username, file);
       } else {
-        console.log("Your folder is full, file already exists or file is over 100Mb");
         return 'Your folder is full, file already exists or file is over 100Mb';
       }
     }
