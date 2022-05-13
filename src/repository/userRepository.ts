@@ -1,7 +1,11 @@
 import { Users } from "../entity/Users";
-import { EntityRepository, getCustomRepository, Repository } from "typeorm";
+import {
+  EntityRepository,
+  getCustomRepository,
+  getManager,
+  Repository,
+} from "typeorm";
 import { calcHashedPassword } from "../../common";
-import { IUser } from "../interface/IUser";
 
 @EntityRepository(Users)
 class UserRepository extends Repository<Users> {
@@ -16,6 +20,12 @@ class UserRepository extends Repository<Users> {
     // return data;
 
     return this.findOne(id);
+  }
+
+  public async getUsers(): Promise<Users> {
+    const entityManager = getManager();
+    const data = await entityManager.query(`SELECT username FROM users`);
+    return data;
   }
 
   public async checkUser(

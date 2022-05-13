@@ -7,8 +7,13 @@ class UserService {
     return userRepository.getUser(id);
   }
 
-  async checkAlreadyExists(username) {
+  getUsers() {
+    return userRepository.getUsers();
+  }
+
+  async checkAlreadyExists(username: string) {
     const result = await userRepository.validUser(username);
+    console.log('alooou',result)
     if (result) {
       console.log("User already exists");
       return true;
@@ -35,8 +40,8 @@ class UserService {
     } else throw Error("Invalid username or password");
   }
 
-  createUser(data) {
-    const alreadyExists = this.checkAlreadyExists(data.username);
+  async createUser(data) {
+    const alreadyExists = await this.checkAlreadyExists(data.username);
     if (!alreadyExists) {
       return userRepository.createUser(data);
     } else {

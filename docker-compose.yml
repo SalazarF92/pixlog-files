@@ -1,0 +1,17 @@
+version: '3'
+
+services: 
+  postgres: 
+    container_name: pixlog-api
+    image: postgres
+    environment: 
+      POSTGRES_USER: salazar
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_PORT: 5432
+      POSTGRES_DATABASE: pixlog
+    ports: 
+      - "5432:5432"
+    expose:
+      - "5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data

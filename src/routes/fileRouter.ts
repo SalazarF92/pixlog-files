@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { userService } from "../services/userService";
 import { fileService } from "../services/fileService";
 
 const router = Router();
@@ -12,15 +13,18 @@ router.post("/create/:username/:password", async (req, res) => {
       res.status(400).send("No files were found!.");
     } else {
       if (file.file == undefined) {
-        res.status(400).send("The key of form-data file be 'file'");
+        res.status(400).send("The key of form-data file must be 'file'");
       } else {
         const result = await fileService.createFile(data, file);
-        res.json(result);
+        console.log(result)
+        return res.json(result);
       }
     }
   } catch (err) {
-    res.json({ error: err.message });
+    return res.status(400).send({ error: err.message });
   }
 });
+
+
 
 export default router;

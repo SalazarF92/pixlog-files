@@ -43,7 +43,7 @@ class FileService {
         resultHash?.salt
       );
       if (checkValid) {
-        await userRepository.checkUser(
+        const validPass = await userRepository.checkUser(
           data?.username,
           resultHash?.password,
           resultHash?.salt
@@ -58,10 +58,13 @@ class FileService {
         const currentFileSize = file.file.size / 1000000;
 
         if (checkFolderSize < 300 && !fileExists && currentFileSize < 100) {
-          await fileRepository.createFile(data.username, file);
+          const result = await fileRepository.createFile(data.username, file);
+          return result
         } else {
-          return "Your folder is full, file already exists or file is over 100Mb";
+          throw Error("Your folder is full, file already exists or file is over 100Mb or password is invalid")
         }
+      } else {
+        throw Error("Invalid password")
       }
     } else {
       throw Error("Invalid username or password");

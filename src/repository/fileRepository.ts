@@ -9,7 +9,7 @@ class FileRepository extends Repository<Users> {
     const pathUser = `./files/${username as string}/${file.file.name}`;
     fs.writeFileSync(pathUser, file.file.data);
 
-    return "success";
+    return "Success to upload file!";
   }
 }
 
