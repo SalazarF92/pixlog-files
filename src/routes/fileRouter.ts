@@ -15,7 +15,7 @@ router.post("/create/:username/:password", async (req, res) => {
       res.json(result);
     }
   } catch (err) {
-    throw err;
+    res.json({ error: err.message });;
   }
 });
 

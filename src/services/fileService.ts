@@ -10,17 +10,6 @@ class FileService {
     return userRepository.getUser(id);
   }
 
-  // async checkUser(data: Partial<IUser>) {
-  //   const result = await userRepository.validUser(data.username);
-  //   const checkValid = validPassword(data.password, result.password, result.salt);
-  //   if (checkValid) {
-  //     const user = await userRepository.checkUser(data.username, result.password, result.salt);
-  //     console.log(user)
-  //     return user;
-  //   }
-  //   else throw Error('Invalid username or password');
-  // }
-
   async checkFileExists(file) {
     if (!fs.existsSync(file)) {
       return false;
@@ -47,26 +36,35 @@ class FileService {
     const pathUser = `./files/${data.username}`;
 
     const resultHash = await userRepository.validUser(data.username);
-    const checkValid = validPassword(
-      data?.password,
-      resultHash?.password,
-      resultHash?.salt
-    );
-    if (checkValid) {
-      await userRepository.checkUser(
-        data?.username,
+    if (resultHash != undefined && resultHash != null) {
+      const checkValid = validPassword(
+        data?.password,
         resultHash?.password,
         resultHash?.salt
       );
-      const fileExists = await this.checkFileExists(pathUser+'/'+file.file.name);
-      const checkFolderSize = await this.checkFolderSize(data.username, pathUser);
-      const currentFileSize = file.file.size/1000000
+      if (checkValid) {
+        await userRepository.checkUser(
+          data?.username,
+          resultHash?.password,
+          resultHash?.salt
+        );
+        const fileExists = await this.checkFileExists(
+          pathUser + "/" + file.file.name
+        );
+        const checkFolderSize = await this.checkFolderSize(
+          data.username,
+          pathUser
+        );
+        const currentFileSize = file.file.size / 1000000;
 
-      if (checkFolderSize < 300 && !fileExists && currentFileSize < 100) {
-        await fileRepository.createFile(data.username, file);
-      } else {
-        return 'Your folder is full, file already exists or file is over 100Mb';
+        if (checkFolderSize < 300 && !fileExists && currentFileSize < 100) {
+          await fileRepository.createFile(data.username, file);
+        } else {
+          return "Your folder is full, file already exists or file is over 100Mb";
+        }
       }
+    } else {
+      throw Error("Invalid username or password");
     }
   }
 }

@@ -27,19 +27,10 @@ class UserRepository extends Repository<Users> {
   }
 
   public async validUser(username: string): Promise<Users> {
-    const result = await this.findOne({ username });
-    if (result) {
-      return result;
-    } else {
-      const nullUser = {
-        id: '',
-        username: '',
-        password: '',
-        salt: '',
-      };
-
-      return nullUser;
-    }
+    const user = await this.findOne({ username });
+    if (user == undefined || user == null) {
+      return null;
+    } else return user;
   }
 
   public async createUser(data) {

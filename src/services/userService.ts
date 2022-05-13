@@ -17,19 +17,21 @@ class UserService {
 
   async checkUser(data: Partial<IUser>) {
     const result = await userRepository.validUser(data.username);
-    const checkValid = validPassword(
-      data?.password,
-      result?.password,
-      result?.salt
-    );
-    if (checkValid) {
-      const user = await userRepository.checkUser(
-        data.username,
-        result.password,
-        result.salt
+    if (result != undefined && result != null) {
+      console.log(result)
+      const checkValid = validPassword(
+        data?.password,
+        result?.password,
+        result?.salt
       );
-      console.log(user);
-      return user;
+      if (checkValid) {
+        const user = await userRepository.checkUser(
+          data.username,
+          result.password,
+          result.salt
+        );
+        return user;
+      }
     } else throw Error("Invalid username or password");
   }
 
