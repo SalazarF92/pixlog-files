@@ -11,11 +11,15 @@ router.post("/create/:username/:password", async (req, res) => {
     if (!file) {
       res.status(400).send("No files were found!.");
     } else {
-      const result = await fileService.createFile(data, file);
-      res.json(result);
+      if (file.file == undefined) {
+        res.status(400).send("The key of form-data file be 'file'");
+      } else {
+        const result = await fileService.createFile(data, file);
+        res.json(result);
+      }
     }
   } catch (err) {
-    res.json({ error: err.message });;
+    res.json({ error: err.message });
   }
 });
 
