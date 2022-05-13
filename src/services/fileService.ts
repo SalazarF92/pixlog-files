@@ -61,7 +61,7 @@ class FileService {
           const result = await fileRepository.createFile(data.username, file);
           return result
         } else {
-          throw Error("Your folder is full, file already exists or file is over 100Mb or password is invalid")
+          throw Error("Your folder is full, file already exists or file is over 100Mb")
         }
       } else {
         throw Error("Invalid password")
