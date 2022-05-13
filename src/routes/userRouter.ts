@@ -24,15 +24,15 @@ router.get("/users", async (req, res) => {
   }
 });
 
-router.post("/create", async (req, res) => {
-  try {
-    const data = req.body;
-    const result = await userService.createUser(data);
+// router.post("/create", async (req, res) => {
+//   try {
+//     const data = req.body;
+//     const result = await userService.createUser(data);
 
-    return res.json(result);
-  } catch (err) {
-    return res.json({ error: err.message });
-  }
-});
+//     return res.json(result);
+//   } catch (err) {
+//     return res.json({ error: err.message });
+//   }
+// });
 
 export default router;
