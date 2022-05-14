@@ -57,17 +57,37 @@ class FileService {
         );
         const currentFileSize = file.file.size / 1000000;
 
-        if (checkFolderSize < 300 && !fileExists && currentFileSize < 100) {
+        if (checkFolderSize[0] < 300 && !fileExists && currentFileSize < 100) {
           const result = await fileRepository.createFile(data.username, file);
-          return result
+          return result;
         } else {
-          throw Error("Your folder is full, file already exists or file is over 100Mb")
+          throw Error(
+            "Your folder is full, file already exists or file is over 100Mb"
+          );
         }
       } else {
-        throw Error("Invalid password")
+        throw Error("Invalid password");
       }
     } else {
       throw Error("Invalid username or password");
+    }
+  }
+
+  async userFiles(data) {
+    const pathUser = `./files/${data.username}`;
+
+    const resultHash = await userRepository.validUser(data.username);
+    if (resultHash != undefined && resultHash != null) {
+      const checkFolderSize = await this.checkFolderSize(
+        data.username,
+        pathUser
+      );
+
+      return checkFolderSize;
+    } else {
+      throw Error(
+        "None files found!"
+      );
     }
   }
 }

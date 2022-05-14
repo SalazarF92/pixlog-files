@@ -25,6 +25,16 @@ router.post("/create/:username/:password", async (req, res) => {
   }
 });
 
+router.get("/files/:username", async (req, res) => {
+  try {
+    const data = req.params
+    const result = await fileService.userFiles(data);
+    res.json(result);
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+})
+
 
 
 export default router;
